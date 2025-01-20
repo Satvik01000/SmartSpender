@@ -1,7 +1,7 @@
 package com.learning.springboot.expensetrackerservice.Controller;
 
 import com.learning.springboot.expensetrackerservice.Models.Expense;
-import com.learning.springboot.expensetrackerservice.Service.ExpenseService;
+import com.learning.springboot.expensetrackerservice.Service.Expense.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequestMapping("/expenses")
 public class ExpenseController {
     private final ExpenseService expenseService;
-
     @Autowired
     public ExpenseController(ExpenseService expenseService) {
         this.expenseService = expenseService;
@@ -23,11 +22,6 @@ public class ExpenseController {
     @GetMapping
     public Optional<List<Expense>> getAllExpenses() {
         return expenseService.getAllExpenses();
-    }
-
-    @GetMapping("/sorted/{field}")
-    public Optional<List<Expense>> getAllExpensesInSortedWay(@PathVariable String field){
-        return expenseService.getAllExpenseSorted(field);
     }
 
     @GetMapping("/paginated/{offset}/{pageSize}/{field}")

@@ -1,4 +1,4 @@
-package com.learning.springboot.expensetrackerservice.Service;
+package com.learning.springboot.expensetrackerservice.Service.Expense;
 
 import com.learning.springboot.expensetrackerservice.Models.Category;
 import com.learning.springboot.expensetrackerservice.Models.Expense;
