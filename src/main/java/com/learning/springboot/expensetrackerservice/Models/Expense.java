@@ -29,10 +29,18 @@ public class Expense extends BaseModel {
     @JsonProperty("Date")
     private Date date;
 
+    @Getter
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn
     @JsonProperty("category")
     private Category category;
+
+    // Getters and Setters
+    @Setter
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Category getCategory() {
         return category;
