@@ -15,14 +15,10 @@ import java.util.List;
 @Builder
 @Entity
 public class Category extends BaseModel {
-    @JsonProperty("title")
     private String title;
 
     @OneToMany(mappedBy = "category")
     @JsonIgnore
     private List<Expense> expenseList;
 
-    public String getTitle() {
-        return title;
-    }
 }

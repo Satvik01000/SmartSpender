@@ -1,13 +1,12 @@
 package com.learning.springboot.expensetrackerservice.Repo;
 
-import com.learning.springboot.expensetrackerservice.Models.Expense;
+import com.learning.springboot.expensetrackerservice.Models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.UUID;
-
 @Repository
-public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
-    List<Expense> findByUserId(UUID userId);
+public interface UserRepo extends JpaRepository<User, UUID> {
+
+    void deleteByUsername(String userName);
 }

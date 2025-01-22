@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/expenses")
 public class ExpenseController {
     private final ExpenseService expenseService;
+
     @Autowired
     public ExpenseController(ExpenseService expenseService) {
         this.expenseService = expenseService;
@@ -30,12 +32,17 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Expense> getSingleExpense(UUID id){
+    public Optional<Expense> getSingleExpense(@PathVariable UUID id){
         return expenseService.getSingleExpense(id);
     }
 
     @PostMapping
     public void addExpense(@RequestBody Expense e){
         expenseService.addExpense(e);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Expense> getExpensesByUserId(@PathVariable UUID userId) {
+        return expenseService.getExpensesByUserId(userId);
     }
 }
