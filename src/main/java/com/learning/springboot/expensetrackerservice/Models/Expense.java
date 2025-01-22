@@ -1,5 +1,6 @@
 package com.learning.springboot.expensetrackerservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,46 +8,35 @@ import lombok.*;
 import java.util.Date;
 
 @Setter
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 public class Expense extends BaseModel {
     @Column
-    @JsonProperty("amount")
     private Long amount;
 
     @Column
-    @JsonProperty("spentWhere")
     private String spentWhere;
 
     @Column
-    @JsonProperty("type")
     private String type;
 
     @Column
-    @JsonProperty("Date")
     private Date date;
 
-    @Getter
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn
-    @JsonProperty("category")
     private Category category;
 
-    // Getters and Setters
-    @Setter
-    @Getter
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user=null;
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    @PrePersist
+    protected void onCreate() {
+        this.date = new Date();
     }
 }
