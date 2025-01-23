@@ -1,6 +1,7 @@
 package com.learning.springboot.expensetrackerservice.Controller;
 
 import com.learning.springboot.expensetrackerservice.Models.Category;
+import com.learning.springboot.expensetrackerservice.Models.Expense;
 import com.learning.springboot.expensetrackerservice.Service.Category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,10 +1,14 @@
 package com.learning.springboot.expensetrackerservice.Service.User;
 
 import com.learning.springboot.expensetrackerservice.Models.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface UserService {
 
-    void addUser(User user);
+    void signUp(User user);
 
-    public void deleteUser(String userName);
+    void deleteUser(String userName);
+
+    String logIn(User user);
 }
