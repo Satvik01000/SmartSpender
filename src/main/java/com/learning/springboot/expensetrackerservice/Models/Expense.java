@@ -33,7 +33,7 @@ public class Expense extends BaseModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user=null;
+    private User user;
 
     @PrePersist
     protected void onCreate() {

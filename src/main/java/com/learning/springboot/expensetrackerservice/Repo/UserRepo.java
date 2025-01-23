@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface UserRepo extends JpaRepository<User, UUID> {
 
     void deleteByUsername(String userName);
+
+    User findByUsername(String userName);
 }

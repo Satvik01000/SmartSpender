@@ -17,13 +17,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/add")
-    public void addUser(@RequestBody User user) {
-        userService.addUser(user);
-        System.out.println(user);
+    @PostMapping("/sign-up")
+    public void signUp(@RequestBody User user) {
+        userService.signUp(user);
     }
 
-    @DeleteMapping("/delete/{username}")
+    @PostMapping("/login")
+    public String login(@RequestBody User user){
+        return userService.logIn(user);
+    }
+
+    @DeleteMapping("/{username}")
     public void deleteUser(@PathVariable String username) {
         userService.deleteUser(username);
     }
