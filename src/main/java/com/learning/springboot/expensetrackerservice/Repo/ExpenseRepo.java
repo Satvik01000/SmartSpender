@@ -34,4 +34,15 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "AND YEAR(e.date) = YEAR(CURRENT_DATE)"
     )
     Long totalDebited(UUID userId);
+
+    @Query(
+        "SELECT e.category.title AS category, SUM(e.amount) AS total_spent " +
+        "FROM Expense e " +
+        "WHERE e.user.id = :userId " +
+        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
+        "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
+        "GROUP BY e.category.title"
+    )
+    List<Object[]> totalSpentByCategory(UUID userId);
+
 }

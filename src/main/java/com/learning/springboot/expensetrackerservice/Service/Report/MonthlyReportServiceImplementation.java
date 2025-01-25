@@ -3,6 +3,7 @@ package com.learning.springboot.expensetrackerservice.Service.Report;
 import com.learning.springboot.expensetrackerservice.Repo.ExpenseRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,11 @@ public class MonthlyReportServiceImplementation implements MonthlyReportService{
     @Override
     public Long totalCredited(UUID user_id) {
         return expenseRepo.totalCredited(user_id)!=null ? expenseRepo.totalCredited(user_id) : 0L;
+    }
+
+    @Override
+    public List<Object[]> categoryWiseSpend(UUID user_id) {
+        return expenseRepo.totalSpentByCategory(user_id);
     }
 
 }
