@@ -3,6 +3,7 @@ package com.learning.springboot.expensetrackerservice.Controller;
 import com.learning.springboot.expensetrackerservice.Service.Report.MonthlyReportService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,6 +24,11 @@ public class ReportController {
     @GetMapping("/debit/{user_id}")
     public Long totalDebited(@PathVariable UUID user_id){
         return monthlyReportService.totalDebited(user_id);
+    }
+
+    @GetMapping("/category/{user_id}")
+    public List<Object[]> categoryWiseSpend(@PathVariable UUID user_id){
+        return monthlyReportService.categoryWiseSpend(user_id);
     }
 
 }
