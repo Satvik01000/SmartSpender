@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserServiceImplementation implements UserService, UserDetailsService {
 
@@ -43,7 +45,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
             )
         );
         if(authentication.isAuthenticated())
-            return "success";
+           return "Success";
         return "Fail";
     }
 
