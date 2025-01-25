@@ -26,15 +26,15 @@ public class ExpenseController {
         return expenseService.getAllExpenses();
     }
 
-    @GetMapping("/paginated/{offset}/{pageSize}/{field}")
-    public Optional<Page<Expense>> getAllExpensesInSortedWay(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String field){
-        return expenseService.getAllExpensePaginatedAndSorted(offset, pageSize, field);
+    @GetMapping("/{user_id}")
+    public Page<Expense> getAllExpensesInSortedWay(@PathVariable UUID user_id, @RequestParam int offset, @RequestParam int pageSize, @RequestParam String field) {
+        return expenseService.getAllExpensePaginatedAndSorted(user_id, offset, pageSize, field);
     }
 
-    @GetMapping("/{id}")
-    public Optional<Expense> getSingleExpense(@PathVariable UUID id){
-        return expenseService.getSingleExpense(id);
-    }
+//    @GetMapping("/{id}")
+//    public Optional<Expense> getSingleExpense(@PathVariable UUID id){
+//        return expenseService.getSingleExpense(id);
+//    }
 
     @PostMapping
     public void addExpense(@RequestBody Expense e){

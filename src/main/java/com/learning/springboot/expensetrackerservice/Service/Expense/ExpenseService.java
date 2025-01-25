@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ExpenseService {
     Optional<List<Expense>> getAllExpenses();
-    Optional<Page<Expense>> getAllExpensePaginatedAndSorted(int offset, int pageSize, String field);
+    Page<Expense> getAllExpensePaginatedAndSorted(UUID user_id, int offset, int pageSize, String field);
     Optional<Expense> getSingleExpense(UUID id);
     void addExpense(Expense expense);
     List<Expense> getExpensesByUserId(UUID userId);
