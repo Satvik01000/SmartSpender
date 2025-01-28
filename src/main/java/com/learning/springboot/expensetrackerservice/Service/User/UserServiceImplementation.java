@@ -3,6 +3,7 @@ package com.learning.springboot.expensetrackerservice.Service.User;
 import com.learning.springboot.expensetrackerservice.Models.User;
 import com.learning.springboot.expensetrackerservice.Models.UserPrincipal;
 import com.learning.springboot.expensetrackerservice.Repo.UserRepo;
+import com.learning.springboot.expensetrackerservice.Service.JwtService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,13 +22,16 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     private final UserRepo userRepo;
     private final AuthenticationManager authManager;
     private final BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
+    private final JwtService jwtService;
 
-    public UserServiceImplementation(UserRepo userRepo, @Lazy AuthenticationManager authManager) {
+    public UserServiceImplementation(UserRepo userRepo, @Lazy AuthenticationManager authManager, JwtService jwtService) {
         this.userRepo = userRepo;
         this.authManager = authManager;
+        this.jwtService = jwtService;
     }
 
     @Override
+
     public void signUp(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
@@ -45,7 +49,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
             )
         );
         if(authentication.isAuthenticated())
-           return "Success";
+           return jwtService.generateToken(user.getUsername());
         return "Fail";
     }
 

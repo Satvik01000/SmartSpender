@@ -27,9 +27,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UUID login(@RequestBody User user){
-       userService.logIn(user);
-       return userRepo.findByUsername(user.getUsername()).getId();
+    public String login(@RequestBody User user){
+       return userService.logIn(user);
     }
 
     @DeleteMapping("/{username}")
