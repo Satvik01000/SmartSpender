@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    public static final long TOKEN_VALIDITY = 5*60*60*1000;
+    public static final long TOKEN_VALIDITY = 60+60*1000;
     public static String SECRET_KEY="";
     public JwtService(){
         try {

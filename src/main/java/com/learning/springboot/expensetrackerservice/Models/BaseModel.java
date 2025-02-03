@@ -21,5 +21,4 @@ public class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
-
 }

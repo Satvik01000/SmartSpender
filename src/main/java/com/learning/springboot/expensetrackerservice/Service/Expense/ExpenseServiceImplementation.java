@@ -68,7 +68,6 @@ public ExpenseServiceImplementation(ExpenseRepo expenseRepo, CategoryRepo catego
             User savedUser = userRepo.save(expense.getUser());
             expense.setUser(savedUser);
         }
-
         // Save the expense
         expenseRepo.save(expense);
     }

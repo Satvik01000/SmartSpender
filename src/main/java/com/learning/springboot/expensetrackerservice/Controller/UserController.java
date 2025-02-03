@@ -6,6 +6,7 @@ import com.learning.springboot.expensetrackerservice.Service.JwtService;
 import com.learning.springboot.expensetrackerservice.Service.User.UserService;
 import com.learning.springboot.expensetrackerservice.Service.User.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +29,14 @@ public class UserController {
         this.userServiceImplementation = userServiceImplementation;
     }
 
-    @PostMapping("/sign-up")
-    public void signUp(@RequestBody User user) {
-        userService.signUp(user);
+@PostMapping("/sign-up")
+public ResponseEntity<String> signUp(@RequestBody User user) {
+    if (userRepo.findByUsername(user.getUsername())!=null) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
     }
+    userService.signUp(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
+}
 
     @PostMapping("/login")
     public String login(@RequestBody User user){

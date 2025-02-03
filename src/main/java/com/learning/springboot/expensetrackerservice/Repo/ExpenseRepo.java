@@ -18,20 +18,21 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     Page<Expense> findAllByUserId(UUID userId, PageRequest pageRequest);
 
     @Query(
-        "SELECT SUM(e.amount) AS total_credited " +
+        "SELECT SUM(e.amount) " +
         "FROM Expense e " +
         "WHERE e.user.id = :userId AND e.type = 'credited' " +
-        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
-        "AND YEAR(e.date) = YEAR(CURRENT_DATE)"
+        "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
+        "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE)"
     )
     Long totalCredited(UUID userId);
 
+
     @Query(
-        "SELECT SUM(e.amount) AS total_debited " +
+        "SELECT SUM(e.amount) " +
         "FROM Expense e " +
         "WHERE e.user.id = :userId AND e.type = 'debited' " +
-        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
-        "AND YEAR(e.date) = YEAR(CURRENT_DATE)"
+        "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
+        "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE)"
     )
     Long totalDebited(UUID userId);
 
@@ -44,5 +45,14 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "GROUP BY e.category.title"
     )
     List<Object[]> totalSpentByCategory(UUID userId);
+
+    @Query(
+        "SELECT e.amount "+
+        "FROM Expense e "+
+        "WHERE e.user.id=:userId "+
+        "ORDER BY e.amount DESC "+
+        "LIMIT 1"
+    )
+    Long mostExpensivePurchase(UUID userId);
 
 }

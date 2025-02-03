@@ -25,6 +25,9 @@ public class User extends BaseModel {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private Long salary;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Expense> expenses;
