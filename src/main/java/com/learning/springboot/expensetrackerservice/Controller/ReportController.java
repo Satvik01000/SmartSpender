@@ -31,4 +31,13 @@ public class ReportController {
         return reportService.categoryWiseSpend(user_id);
     }
 
+    @GetMapping("/balance")
+    public Long currentMonthBalance(@RequestParam UUID userId){
+        return reportService.currentBalance(userId);
+    }
+
+    @GetMapping("/purchase/most-expensive")
+    public Long mostExpensivePurchase(@RequestParam UUID userId){
+        return reportService.mostExpensivePurchase(userId);
+    }
 }
