@@ -43,14 +43,4 @@ public class ExpenseController {
     public List<Expense> getExpensesByUserId(@PathVariable UUID userId) {
         return expenseService.getExpensesByUserId(userId);
     }
-
-    @GetMapping("/balance")
-    public Long currentMonthBalance(@RequestParam UUID userId){
-        return reportService.currentBalance(userId);
-    }
-
-    @GetMapping("/purchase/expensive")
-    public Long mostExpensivePurchase(@RequestParam UUID userId){
-        return reportService.mostExpensivePurchase(userId);
-    }
 }

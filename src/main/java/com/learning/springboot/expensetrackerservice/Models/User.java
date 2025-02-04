@@ -31,6 +31,4 @@ public class User extends BaseModel {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Expense> expenses;
-
-    private  String lastName;
 }
