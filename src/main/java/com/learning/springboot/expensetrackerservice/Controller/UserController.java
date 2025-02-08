@@ -58,4 +58,9 @@ public ResponseEntity<String> signUp(@RequestBody User user) {
             return ResponseEntity.badRequest().body(false);
         }
     }
+
+    @GetMapping("/{username}")
+    public UUID usernameToId(@PathVariable String username){
+        return userRepo.findByUsername(username).getId();
+    }
 }

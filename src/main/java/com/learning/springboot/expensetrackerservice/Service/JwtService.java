@@ -18,19 +18,11 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    public static final long TOKEN_VALIDITY = 60+60*1000;
-    public static String SECRET_KEY="";
-    public JwtService(){
-        try {
-            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey sk = keyGen.generateKey();
-            SECRET_KEY= Base64.getEncoder().encodeToString(sk.getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    private SecretKey getKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+    public static final Long TOKEN_VALIDITY = 60L * 60 * 1000;
+    private final String secretKey=System.getenv("SecretKey");
+
+    private SecretKey getKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
