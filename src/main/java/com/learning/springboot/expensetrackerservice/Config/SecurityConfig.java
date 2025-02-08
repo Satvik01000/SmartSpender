@@ -30,8 +30,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(request ->request
-//                .requestMatchers("user/sign-up", "user/login", "user/validate-token").permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers("user/sign-up", "user/login", "user/validate-token").permitAll()
+                .anyRequest().authenticated()
         )
         .httpBasic(Customizer.withDefaults())
         .csrf(csrf->csrf.disable())
