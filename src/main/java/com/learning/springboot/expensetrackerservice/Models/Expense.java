@@ -35,6 +35,9 @@ public class Expense extends BaseModel {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column
+    private String description;
+
     @PrePersist
     protected void onCreate() {
         this.date = new Date();
