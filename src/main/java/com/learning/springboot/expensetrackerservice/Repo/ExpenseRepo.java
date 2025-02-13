@@ -49,7 +49,7 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     @Query(
         "SELECT e.amount "+
         "FROM Expense e "+
-        "WHERE e.user.id=:userId "+
+        "WHERE e.user.id=:userId AND e.type='debited' "+
         "ORDER BY e.amount DESC "+
         "LIMIT 1"
     )

@@ -38,7 +38,7 @@ public ExpenseServiceImplementation(ExpenseRepo expenseRepo, CategoryRepo catego
 
     @Override
     public Page<Expense> getAllExpensePaginatedAndSorted(UUID userId, int offset, int pageSize, String field) {
-        return expenseRepo.findAllByUserId(userId, PageRequest.of(offset, pageSize, Sort.by(field)));
+        return expenseRepo.findAllByUserId(userId, PageRequest.of(offset, pageSize, Sort.by(field).descending()));
     }
 
 
