@@ -1,5 +1,6 @@
 package com.learning.springboot.expensetrackerservice.Controller;
 
+import com.learning.springboot.expensetrackerservice.Models.Expense;
 import com.learning.springboot.expensetrackerservice.Service.Report.ReportService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +27,9 @@ public class ReportController {
         return reportService.totalDebited(userId);
     }
 
-    @GetMapping("/category/{user_id}")
-    public List<Object[]> categoryWiseSpend(@PathVariable UUID user_id){
-        return reportService.categoryWiseSpend(user_id);
+    @GetMapping("/category")
+    public List<Object[]> categoryWiseSpend(@RequestParam UUID userId){
+        return reportService.categoryWiseSpend(userId);
     }
 
     @GetMapping("/balance")
@@ -37,7 +38,12 @@ public class ReportController {
     }
 
     @GetMapping("/purchase/most-expensive")
-    public Long mostExpensivePurchase(@RequestParam UUID userId){
+    public Expense mostExpensivePurchase(@RequestParam UUID userId){
         return reportService.mostExpensivePurchase(userId);
+    }
+
+    @GetMapping("/daily")
+    public List<Object[]> dailySpendInAMonth(@RequestParam UUID userId){
+        return reportService.dailySpendingInAMonth(userId);
     }
 }
