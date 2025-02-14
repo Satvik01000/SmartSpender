@@ -21,8 +21,9 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "SELECT SUM(e.amount) " +
         "FROM Expense e " +
         "WHERE e.user.id = :userId AND e.type = 'credited' " +
-        "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
-        "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE)"
+        "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
+        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
+        "AND DATE(e.date) <= CURDATE() "
     )
     Long totalCredited(UUID userId);
 
@@ -31,8 +32,9 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "SELECT SUM(e.amount) " +
         "FROM Expense e " +
         "WHERE e.user.id = :userId AND e.type = 'debited' " +
-        "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
-        "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE)"
+        "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
+        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
+        "AND DATE(e.date) <= CURDATE() "
     )
     Long totalDebited(UUID userId);
 
@@ -51,21 +53,23 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "SELECT e "+
         "FROM Expense e "+
         "WHERE e.user.id=:userId AND e.type='debited' "+
+        "AND e.date <= CURRENT_DATE " +
         "ORDER BY e.amount DESC "+
         "LIMIT 1"
     )
     Expense mostExpensivePurchase(UUID userId);
 
     @Query(
-        "SELECT SUM(e.amount) AS total_amount, e.date, e.type " +
+        "SELECT SUM(e.amount) AS total_amount, DATE(e.date) AS expense_date, e.type " +
         "FROM Expense e " +
-        "WHERE e.user.id = :userId " +
-        "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE) " +
-        "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
-        "AND e.date <= CURRENT_DATE " +
-        "GROUP BY e.date, e.type " +
-        "ORDER BY e.date"
+        "WHERE e.user.id = :userId " +  // FIXED: Use `e.user.id` instead of `e.id`
+        "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
+        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
+        "AND DATE(e.date) <= CURDATE() " +
+        "GROUP BY DATE(e.date), e.type " +
+        "ORDER BY DATE(e.date)"
     )
     List<Object[]> dailySpendingInAMonth(UUID userId);
+
 
 }
