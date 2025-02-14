@@ -47,12 +47,24 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     List<Object[]> totalSpentByCategory(UUID userId);
 
     @Query(
-        "SELECT e.amount "+
+        "SELECT e "+
         "FROM Expense e "+
         "WHERE e.user.id=:userId AND e.type='debited' "+
         "ORDER BY e.amount DESC "+
         "LIMIT 1"
     )
-    Long mostExpensivePurchase(UUID userId);
+    Expense mostExpensivePurchase(UUID userId);
+
+    @Query(
+        "SELECT SUM(e.amount) AS total_amount, e.date " +
+        "FROM Expense e " +
+        "WHERE e.user.id = :userId " +
+        "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE) " +
+        "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
+        "AND e.date <= CURRENT_DATE " +
+        "GROUP BY e.date " +
+        "ORDER BY e.date"
+    )
+    List<Object[]> dailySpendingInAMonth(UUID userId);
 
 }

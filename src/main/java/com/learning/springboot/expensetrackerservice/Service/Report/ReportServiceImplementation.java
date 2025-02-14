@@ -1,5 +1,6 @@
 package com.learning.springboot.expensetrackerservice.Service.Report;
 
+import com.learning.springboot.expensetrackerservice.Models.Expense;
 import com.learning.springboot.expensetrackerservice.Models.User;
 import com.learning.springboot.expensetrackerservice.Repo.ExpenseRepo;
 import com.learning.springboot.expensetrackerservice.Repo.UserRepo;
@@ -48,7 +49,12 @@ public class ReportServiceImplementation implements ReportService {
     }
 
     @Override
-    public Long mostExpensivePurchase(UUID userId){
+    public Expense mostExpensivePurchase(UUID userId){
         return expenseRepo.mostExpensivePurchase(userId);
+    }
+
+    @Override
+    public List<Object[]> dailySpendingInAMonth(UUID userId) {
+        return expenseRepo.dailySpendingInAMonth(userId);
     }
 }

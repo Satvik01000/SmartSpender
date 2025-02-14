@@ -59,7 +59,7 @@ public ResponseEntity<String> signUp(@RequestBody User user) {
         }
     }
 
-    @GetMapping("{username}")
+    @GetMapping("/name/{username}")
     public String usernameToName(@PathVariable String username){
         return userRepo.findByUsername(username).getName();
     }
