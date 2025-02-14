@@ -37,12 +37,13 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     Long totalDebited(UUID userId);
 
     @Query(
-        "SELECT e.category.title AS category, SUM(e.amount) AS total_spent " +
+        "SELECT e.category.title AS category, SUM(e.amount) AS total_spent, e.type AS type " +
         "FROM Expense e " +
         "WHERE e.user.id = :userId " +
         "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
         "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
-        "GROUP BY e.category.title"
+        "AND e.date <= CURRENT_DATE " +
+        "GROUP BY e.category.title, e.type"
     )
     List<Object[]> totalSpentByCategory(UUID userId);
 
@@ -56,13 +57,13 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     Expense mostExpensivePurchase(UUID userId);
 
     @Query(
-        "SELECT SUM(e.amount) AS total_amount, e.date " +
+        "SELECT SUM(e.amount) AS total_amount, e.date, e.type " +
         "FROM Expense e " +
         "WHERE e.user.id = :userId " +
         "AND FUNCTION('YEAR', e.date) = FUNCTION('YEAR', CURRENT_DATE) " +
         "AND FUNCTION('MONTH', e.date) = FUNCTION('MONTH', CURRENT_DATE) " +
         "AND e.date <= CURRENT_DATE " +
-        "GROUP BY e.date " +
+        "GROUP BY e.date, e.type " +
         "ORDER BY e.date"
     )
     List<Object[]> dailySpendingInAMonth(UUID userId);
