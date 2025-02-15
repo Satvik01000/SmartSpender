@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface CategoryService {
     void addCategory(Category category);
     void deleteCategory(String title);
-    Optional<List<Category>> getAllCategories();
-    Optional<Page<Category>> getAllCategoryPaginatedAndSorted(int offset, int pageSize, String field);
     Optional<Category> getCategoryByTitle(String title);
+    Optional<List<Category>> getAllCategoriesOfAUser(UUID userId);
 }

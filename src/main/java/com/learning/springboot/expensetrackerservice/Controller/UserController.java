@@ -68,4 +68,9 @@ public ResponseEntity<String> signUp(@RequestBody User user) {
     public UUID usernameToId(@PathVariable String username){
         return userRepo.findByUsername(username).getId();
     }
+
+    @GetMapping("/valid/{username}")
+    public Boolean validUsername(@PathVariable String username){
+        return userRepo.findByUsername(username)!=null;
+    }
 }

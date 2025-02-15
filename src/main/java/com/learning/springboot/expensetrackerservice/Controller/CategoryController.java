@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -21,14 +22,9 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/paginated/{offset}/{pageSize}/{field}")
-    public Optional<Page<Category>> getAllCategoryPaginatedAndSorted(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String field) {
-        return categoryService.getAllCategoryPaginatedAndSorted(offset, pageSize, field);
-    }
-
     @GetMapping
-    public Optional<List<Category>> getAllCategories() {
-        return categoryService.getAllCategories();
+    public Optional<List<Category>> getAllCategoriesOfAUser(@RequestParam UUID userId) {
+        return categoryService.getAllCategoriesOfAUser(userId);
     }
 
     @GetMapping("/{title}")
