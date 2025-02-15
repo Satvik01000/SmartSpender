@@ -9,8 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CategoryServiceImplementation implements CategoryService {
@@ -30,17 +32,12 @@ public class CategoryServiceImplementation implements CategoryService {
     }
 
     @Override
-    public Optional<List<Category>> getAllCategories() {
-        return Optional.of(categoryRepo.findAll());
-    }
-
-    @Override
-    public Optional<Page<Category>> getAllCategoryPaginatedAndSorted(int offset, int pageSize, String field) {
-        return Optional.of(categoryRepo.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(field))));
-    }
-
-@Override
-public Optional<Category> getCategoryByTitle(String title) {
+    public Optional<Category> getCategoryByTitle(String title) {
     return categoryRepo.findByTitle(title);
 }
+
+    @Override
+    public Optional<List<Category>> getAllCategoriesOfAUser(UUID userId) {
+        return categoryRepo.getAllCategoriesOfAUser(userId);
+    }
 }

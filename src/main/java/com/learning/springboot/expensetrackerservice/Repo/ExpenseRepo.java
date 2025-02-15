@@ -50,10 +50,11 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     List<Object[]> totalSpentByCategory(UUID userId);
 
     @Query(
-        "SELECT e "+
-        "FROM Expense e "+
-        "WHERE e.user.id=:userId AND e.type='debited' "+
-        "AND e.date <= CURRENT_DATE " +
+        "SELECT e " +
+        "FROM Expense e " +
+        "WHERE e.user.id = :userId " +
+        "AND e.type = 'debited' " +
+        "AND e.date BETWEEN FUNCTION('DATE_FORMAT', CURRENT_DATE, '%Y-%m-01') AND CURRENT_DATE " +
         "ORDER BY e.amount DESC "+
         "LIMIT 1"
     )
@@ -70,6 +71,4 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "ORDER BY DATE(e.date)"
     )
     List<Object[]> dailySpendingInAMonth(UUID userId);
-
-
 }

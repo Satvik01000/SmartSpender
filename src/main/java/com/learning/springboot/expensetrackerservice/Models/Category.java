@@ -2,6 +2,8 @@ package com.learning.springboot.expensetrackerservice.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 
@@ -19,4 +21,9 @@ public class Category extends BaseModel {
     @OneToMany(mappedBy = "category")
     @JsonIgnore
     private List<Expense> expenseList;
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
