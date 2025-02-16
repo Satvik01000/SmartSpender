@@ -73,4 +73,9 @@ public ResponseEntity<String> signUp(@RequestBody User user) {
     public Boolean validUsername(@PathVariable String username){
         return userRepo.findByUsername(username)!=null;
     }
+
+    @PatchMapping("/password/{userId}")
+    public void changeUserPassword(@PathVariable UUID userId, @RequestBody String password){
+        userService.changePassword(userId, password);
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -51,6 +52,17 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         if(authentication.isAuthenticated())
            return jwtService.generateToken(user.getUsername());
         return "Fail";
+    }
+
+    @Override
+    public void changePassword(UUID userId, String password) {
+        Optional<User> userOptional = userRepo.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(password));
+//            user.setPassword(password);
+            userRepo.save(user);
+        }
     }
 
     @Override
