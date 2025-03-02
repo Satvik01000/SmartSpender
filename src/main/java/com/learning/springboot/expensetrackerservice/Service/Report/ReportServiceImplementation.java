@@ -38,7 +38,11 @@ public class ReportServiceImplementation implements ReportService {
     @Override
     public Long currentBalance(UUID userId){
         Long credit=expenseRepo.totalCredited(userId);
+        if(credit==null)
+            credit=0L;
         Long debit=expenseRepo.totalDebited(userId);
+        if(debit==null)
+            debit=0L;
         Long salary=0L;
 
         Optional<User> userOptional = userRepo.findById(userId);

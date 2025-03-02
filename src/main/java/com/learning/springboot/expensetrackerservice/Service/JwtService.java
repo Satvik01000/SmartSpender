@@ -18,11 +18,19 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    public static final Long TOKEN_VALIDITY = 60L * 60 * 1000;
-    private final String secretKey=System.getenv("SecretKey");
-
-    private SecretKey getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    public static final Long TOKEN_VALIDITY = 60L*60*1000;
+    public static String SECRET_KEY="";
+    public JwtService(){
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+            SecretKey sk = keyGen.generateKey();
+            SECRET_KEY= Base64.getEncoder().encodeToString(sk.getEncoded());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private SecretKey getKey(){
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -66,7 +74,7 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        // extract the username from jwt token
+        // extract the username git pull origin alpha --ff-onlyfrom jwt token
         return getClaimFromToken(token, Claims::getSubject);
     }
     public boolean validateToken(String token, UserDetails userDetails) {
