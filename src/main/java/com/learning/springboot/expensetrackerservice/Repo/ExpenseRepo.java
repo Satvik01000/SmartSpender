@@ -39,31 +39,31 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
     Long totalDebited(UUID userId);
 
     @Query(
-        "SELECT e.category.title AS category, SUM(e.amount) AS total_spent, e.type AS type " +
-        "FROM Expense e " +
-        "WHERE e.user.id = :userId " +
-        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
-        "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
-        "AND e.date <= CURRENT_DATE " +
-        "GROUP BY e.category.title, e.type"
-    )
-    List<Object[]> totalSpentByCategory(UUID userId);
-
+            "SELECT e.category.title AS category, SUM(e.amount) AS total_spent, e.type AS type " +
+            "FROM Expense e " +
+            "WHERE e.user.id = :userId " +
+            "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
+            "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
+            "GROUP BY e.category.title, e.type"
+        )
+        List<Object[]> totalSpentByCategory(UUID userId);
     @Query(
-        "SELECT e " +
-        "FROM Expense e " +
+        "SELECT e FROM Expense e " +
         "WHERE e.user.id = :userId " +
         "AND e.type = 'debited' " +
-        "AND e.date BETWEEN FUNCTION('DATE_FORMAT', CURRENT_DATE, '%Y-%m-01') AND CURRENT_DATE " +
-        "ORDER BY e.amount DESC "+
+        "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
+        "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
+        "AND DATE(e.date) <= CURDATE() " +
+        "ORDER BY e.amount DESC " +
         "LIMIT 1"
     )
     Expense mostExpensivePurchase(UUID userId);
 
+
     @Query(
         "SELECT SUM(e.amount) AS total_amount, DATE(e.date) AS expense_date, e.type " +
         "FROM Expense e " +
-        "WHERE e.user.id = :userId " +  // FIXED: Use `e.user.id` instead of `e.id`
+        "WHERE e.user.id = :userId " +
         "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
         "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
         "AND DATE(e.date) <= CURDATE() " +

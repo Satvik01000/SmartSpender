@@ -74,7 +74,7 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        // extract the username from jwt token
+        // extract the username git pull origin alpha --ff-onlyfrom jwt token
         return getClaimFromToken(token, Claims::getSubject);
     }
     public boolean validateToken(String token, UserDetails userDetails) {
