@@ -51,6 +51,7 @@ public interface ExpenseRepo extends JpaRepository<Expense, UUID> {
         "SELECT e FROM Expense e " +
         "WHERE e.user.id = :userId " +
         "AND e.type = 'debited' " +
+        "AND e.spentWhere != 'Savings' " +
         "AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
         "AND MONTH(e.date) = MONTH(CURRENT_DATE) " +
         "AND DATE(e.date) <= CURDATE() " +
