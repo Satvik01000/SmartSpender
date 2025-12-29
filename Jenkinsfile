@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "satvik0100/smart-spender"
+        // This variable holds the string "satvik0100"
         DOCKER_CREDS_ID = "satvik0100"
     }
 
@@ -30,7 +31,8 @@ pipeline {
             steps {
                 script {
                     echo 'Pushing to Docker Hub...'
-                    withCredentials([usernamePassword(credentialsId: satvik0100, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    // FIX: Use the variable DOCKER_CREDS_ID here
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                         sh "docker push ${IMAGE_NAME}:latest"
                         sh 'docker logout'
