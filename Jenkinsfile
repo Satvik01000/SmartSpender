@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = "satvik0100/smart-spender"
-        // This variable holds the string "satvik0100"
         DOCKER_CREDS_ID = "satvik0100"
     }
 
@@ -18,23 +17,24 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build & Push') {
             steps {
                 script {
-                    echo 'Building Docker Image...'
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
-                }
-            }
-        }
-
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-                    echo 'Pushing to Docker Hub...'
-                    // FIX: Use the variable DOCKER_CREDS_ID here
+                    // Wrap EVERYTHING in the credentials block
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        
+                        echo '1. Logging in...'
+                        // Login FIRST so we can pull the base images
                         sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                        
+                        echo '2. Building Image...'
+                        // Now the build works because we are authenticated
+                        sh "docker build -t ${IMAGE_NAME}:latest ."
+                        
+                        echo '3. Pushing to Docker Hub...'
                         sh "docker push ${IMAGE_NAME}:latest"
+                        
+                        echo '4. Logging out...'
                         sh 'docker logout'
                     }
                 }
